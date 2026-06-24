@@ -1,0 +1,67 @@
+<h2>Listado de Barrios o Ciudadelas</h2>
+
+Número de barrios: {{ numero_barrios }}
+
+<hr />
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Número de viviendas</th>
+      <th>Número de parques</th>
+      <th>Número de edificios residenciales</th>
+      <th>Parroquia</th>
+      <th>Presidentes</th>
+      <th>Profesiones</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for b in barrios %}
+    <tr>
+      <td>{{ b.nombre }}</td>
+      <td>{{ b.numero_viviendas }}</td>
+      <td>{{ b.numero_parques }}</td>
+      <td>{{ b.numero_edificios_residenciales }}</td>
+      <td>{{ b.parroquia.nombre }}</td>
+
+      <td>
+        {% for presidente in b.presidentebarrio_set.all %}
+          {{ presidente.nickname }}<br />
+        {% empty %}
+          Sin presidente
+        {% endfor %}
+      </td>
+
+      <td>
+        {% for presidente in b.presidentebarrio_set.all %}
+          {{ presidente.profesion }}<br />
+        {% empty %}
+          Sin profesión
+        {% endfor %}
+      </td>
+
+      <td>
+        [<a href="{% url 'editar_barrio' b.id %}">editar</a>]
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="8">No existen barrios registrados</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<br />
+[<a href="{% url 'index' %}">inicio</a>]
+<br />
+[<a href="{% url 'listar_parroquias' %}">listar parroquias</a>]
+<br />
+[<a href="{% url 'listar_barrios' %}">listar barrios</a>]
+<br />
+[<a href="{% url 'crear_parroquia' %}">crear parroquia</a>]
+<br />
+[<a href="{% url 'crear_barrio' %}">crear barrio</a>]

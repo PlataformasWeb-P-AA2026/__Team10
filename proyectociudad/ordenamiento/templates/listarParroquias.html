@@ -1,0 +1,76 @@
+<h2>Listado de Parroquias</h2>
+
+Número de parroquias: {{ numero_parroquias }}
+
+<hr />
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Ubicación</th>
+      <th>Tipo</th>
+      <th>Barrios / Ciudadelas</th>
+      <th>Número de parques</th>
+      <th>Profesiones de presidentes</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for p in parroquias %}
+    <tr>
+      <td>{{ p.nombre }}</td>
+      <td>{{ p.ubicacion }}</td>
+      <td>{{ p.tipo }}</td>
+
+      <td>
+        {% for b in p.barriociudadela_set.all %}
+          {{ b.nombre }}<br />
+        {% empty %}
+          Sin barrios
+        {% endfor %}
+      </td>
+
+      <td>
+        {% for b in p.barriociudadela_set.all %}
+          {{ b.nombre }}: {{ b.numero_parques }} parque(s)<br />
+        {% empty %}
+          0
+        {% endfor %}
+      </td>
+
+      <td>
+        {% for b in p.barriociudadela_set.all %}
+          {% for presidente in b.presidentebarrio_set.all %}
+            {{ presidente.profesion }}<br />
+          {% empty %}
+            Sin presidente registrado<br />
+          {% endfor %}
+        {% empty %}
+          Sin profesiones
+        {% endfor %}
+      </td>
+
+      <td>
+        [<a href="{% url 'editar_parroquia' p.id %}">editar</a>]
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="7">No existen parroquias registradas</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<br />
+[<a href="{% url 'index' %}">inicio</a>]
+<br />
+[<a href="{% url 'listar_parroquias' %}">listar parroquias</a>]
+<br />
+[<a href="{% url 'listar_barrios' %}">listar barrios</a>]
+<br />
+[<a href="{% url 'crear_parroquia' %}">crear parroquia</a>]
+<br />
+[<a href="{% url 'crear_barrio' %}">crear barrio</a>]

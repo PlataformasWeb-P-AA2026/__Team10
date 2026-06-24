@@ -51,7 +51,7 @@ def crear_parroquia(request):
         formulario = ParroquiaForm()
 
     contexto = {'formulario': formulario}
-    return render(request, 'crearParroquia.html', contexto)
+    return render(request, 'crear_Parroquia.html', contexto)
 
 
 def editar_parroquia(request, id):
